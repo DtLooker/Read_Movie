@@ -1,0 +1,12 @@
+<!-- wxml编写小程序的骨架文件 -->
+<!-- <div>容器，分割一个文档中的不同部分，与html里面类似 -->
+<view class="container">
+  <image class='user-avatar' src="/images/avatar/4.png"></image>
+  <text class="user-name">Hello, looker</text>
+  <!--bindtap  tap类似与js中的click方法  -->
+  <!--如果父容器和子容器里面都有bindtap事件，点击子容器中，则先执行子容器事件，再执行
+  父容器事件。每次执行子容器事件都会触发父容器事件； 要拦截事件，不触发父容器事件。在子容器 使用catchtap事件。-->
+  <view class="moto-container" bindtap='onTap'>
+    <text class="moto" >开启小程序之旅</text>
+  </view>
+</view>

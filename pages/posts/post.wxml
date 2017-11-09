@@ -1,0 +1,24 @@
+<import src="post-item/post-item-template.wxml"/>
+  <view>
+    <swiper catchtap='onSwiperTap' indicator-dots='true' autoplay='true' interval='5000'>
+      <!--swiper-item仅可放置在swiper组件中，宽高自动设置为100%  -->
+      <swiper-item>
+        <image src='/images/post/xiaolong.jpg' data-postId='7'></image>
+      </swiper-item>
+      <swiper-item>
+        <image src='/images/post/vr.png' data-postId='6'></image>
+      </swiper-item>
+      <swiper-item>
+        <image src='/images/post/sls.jpeg' data-postId='5'></image>
+      </swiper-item>
+    </swiper>
+    <block wx:for="{{posts_key}}" wx:key="*this" wx:for-item="item" wx:for-index="idx">
+    <!-- template 只是相当于占位符，所以触发事件是没用的，可以在外面包裹一个view  -->
+    <!-- 给view绑定数据可以用 data- = '{{}}'，data-后面的标记符可以自定义  -->
+    <view catchtap='onPostTap' data-postId='{{item.postId}}'>
+      <!--//template-->
+      <template is="postItem" data="{{...item}}" />
+      <!-- "...item" 类似于表示将item数据平铺开来，不是在item包裹里面 -->
+    </view>
+    </block>
+  </view>
