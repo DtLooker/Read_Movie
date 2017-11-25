@@ -10,8 +10,9 @@ Page({
     data: {
         movies:{},
         navigateTitle: "",
-        requestUrl:"",
-        totalCount:0,
+        requestUrl: "",
+        totalCount: 0,
+        isEmpty: true,
     },
 
     /**
@@ -38,8 +39,23 @@ Page({
         util.http(dataUrl, this.processDoubanData);
     },
 
-    onScrollLower:function(event){
+    //onScrollLower:function(event){
+    onReachBottom: function(event) {
         var nextUrl = this.data.requestUrl + "?start=" + this.data.totalCount + "&count=20";
+        util.http(nextUrl, this.processDoubanData);
+
+        //wx.showNavigationBarLoading();
+        wx.showLoading({
+            title: '正在玩命加载中...',
+        })
+    },
+
+    onPullDownRefresh: function(event){
+        var refreshUrl = this.data.requestUrl + "?star=0&count=20";
+        this.data.movies = [];
+        this.data.isEmpty = true;
+        util.http(refreshUrl, this.processDoubanData);
+        
     },
 
     processDoubanData: function (moviesDouban) {
@@ -59,10 +75,21 @@ Page({
             }
             movies.push(temp);
         }
-        this.data.totlaCount += 20;
+        var totalMovies = {};
+
+        //要绑定旧的数据，就要和新的数据绑定在一起
+        if(!this.data.isEmpty){
+            totalMovies = this.data.movies.concat(movies);
+        }else{
+            totalMovies = movies;
+            this.data.isEmpty = false;
+        }
         this.setData({
-            movies : movies
+            movies : totalMovies
         });
+        this.data.totalCount += 20;
+        wx.hideLoading();
+        wx.stopPullDownRefresh();
     },  
 
     onReady: function (options) {
