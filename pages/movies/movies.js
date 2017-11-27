@@ -27,6 +27,13 @@ Page({
         })
     },
 
+    onMovieTap:function(event){
+        var movieId = event.currentTarget.dataset.movieid;
+        wx.navigateTo({
+            url: 'movie-detail/movie-detail?id=' + movieId,
+        })
+    },
+
     getMovieListData: function (url, settedKey, categoryTitle) {
         var that = this;
         wx: wx.request({
@@ -38,7 +45,6 @@ Page({
             },
             method: 'GET',
             success: function (res) {
-                console.log(res);
                 that.processDoubanData(res.data, settedKey, categoryTitle);
             },
             fail: function (res) {
@@ -58,7 +64,7 @@ Page({
         //console.log("show search");
         this.setData({
             containerShow:false,
-            searchPanelShow:true
+            searchPanelShow:true,
         })
     },
 
